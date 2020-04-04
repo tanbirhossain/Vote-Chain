@@ -2,7 +2,20 @@
     ViewData["Title"] = "Home Page";
 }
 
+@{ 
+    var p2pList = (List<string>)ViewBag.ConnectedList;
+}
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>GO TO <a href="/swagger">API</a>.</p>
+</div>
+<hr />
+<div class="text-center">
+    <h5 class="display-4">P2P Connectd List</h5>
+    <hr />
+    @foreach (var item in p2pList)
+    {
+        <p>@item</p>
+    }
 </div>

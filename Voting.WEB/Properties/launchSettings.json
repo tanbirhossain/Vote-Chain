@@ -14,7 +14,8 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
-    },
+    }
+    ,
     "Voting.WEB": {
       "commandName": "Project",
       "launchBrowser": true,

@@ -41,12 +41,21 @@ namespace Voting.Infrastructure.PeerToPeer
         /// Initial peers
         /// </summary>
         public List<string> _peers;
-      
+
 
         /// <summary>
         /// All of peers
         /// </summary>
         private List<Socket> _sockets = new List<Socket>();
+
+        public List<Socket> GetSockets
+        {
+            get
+            {
+                return _sockets;
+            }
+        }
+
 
         private readonly IServiceProvider _serviceProvider;
 
@@ -57,7 +66,7 @@ namespace Voting.Infrastructure.PeerToPeer
                 ? Convert.ToInt32(Environment.GetEnvironmentVariable("P2P_PORT"))
                 : Convert.ToInt32(configuration.GetSection("P2P").GetSection("DEFAULT_PORT").Value);
 
-            _peers = configuration.GetSection("SeedList").Get<List<string>>()  != null
+            _peers = configuration.GetSection("SeedList").Get<List<string>>() != null
        ? configuration.GetSection("SeedList").Get<List<string>>()
        : new List<string>();
 
@@ -121,18 +130,25 @@ namespace Voting.Infrastructure.PeerToPeer
 
         private void ListenForPeers()
         {
+            // port forward
+            if (UPnP.Discover())
+            {
+                try
+                {
+                    UPnP.GetExternalIP();
+                    UPnP.ForwardPort(_p2pPort, ProtocolType.Tcp, "Vote chain Tcp");
+                }
+                catch { }
+            }
             Task.Run(() =>
             {
                 var server = new TcpListener(localhost, _p2pPort);
                 server.Start();
-
                 while (true)
                 {
                     allDone.Reset();
-
                     Console.WriteLine($"Waiting For Connection on port {_p2pPort} ...");
                     server.BeginAcceptSocket(AddSocket, server);
-
                     allDone.WaitOne();
                 }
             });

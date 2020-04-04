@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace Voting.API
@@ -8,31 +9,17 @@ namespace Voting.API
 
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+
+            var webhost = CreateWebHostBuilder(args).Build();
+
+            webhost.Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-        //public static void Main(string[] args)
-        //{
-        //    var host = new HostBuilder()
-        //        .UseContentRoot(Directory.GetCurrentDirectory())
-        //        .ConfigureWebHostDefaults(webBuilder =>
-        //        {
-        //            webBuilder.UseKestrel(serverOptions =>
-        //            {
-        //        // Set properties and call methods on options
-        //    })
-        //            .UseIISIntegration()
-        //            .UseStartup<Startup>();
-        //        })
-        //        .Build();
-
-        //    host.Run();
-        //}
+        private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost
+                .CreateDefaultBuilder(args)
+                .UseUrls(args)
+                .UseKestrel()
+                .UseStartup<Startup>();
     }
 }

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Votin.Model", "Votin.Model\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.Infrastructure", "Voting.Infrastructure\Voting.Infrastructure.csproj", "{9E55944C-285C-4EFC-B8EF-6E9527CA7E1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voting.WEB", "Voting.WEB\Voting.WEB.csproj", "{9F903434-1994-4AF8-B9FF-24B4CDFD4E7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.WEB", "Voting.WEB\Voting.WEB.csproj", "{9F903434-1994-4AF8-B9FF-24B4CDFD4E7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
