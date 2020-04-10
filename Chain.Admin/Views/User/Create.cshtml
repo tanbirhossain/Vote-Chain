@@ -91,7 +91,7 @@
                 },
                 error: function (jqxhr, textstatus, errorthrown) {
                     jsonValue = jQuery.parseJSON(jqxhr.responseText);
-                    console.log("Error", jsonValue.Message);
+                    alert(jsonValue.Message);
                 },
                 complete: function () {
                 }

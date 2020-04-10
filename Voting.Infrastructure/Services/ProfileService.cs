@@ -77,7 +77,7 @@ namespace Voting.Infrastructure.Services
             var users = await _commonContext.Users.Where(
                 u => u.Name.Contains(filter.Name) &&
                      u.PublicKey.Contains(filter.Address)
-            ).ToListAsync();
+            ).OrderByDescending(e=>e.Id).ToListAsync();
 
             result.Items = users;
             result.TotalCount = users.Count;

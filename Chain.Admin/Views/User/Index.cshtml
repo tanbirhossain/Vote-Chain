@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border-primary ">
+            <div class="card-header">
+                User List
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>PublicKey</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblList">
+                       
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+ 
+            var _url = "/api/profile/GetUsers";
+            $.ajax({
+                type: "GET",
+                url: _url,
+              
+                success: function (data) {
+                    console.log("update : ", data);
+                    AppendFileList(data.items);
+                },
+                error: function (jqxhr, textstatus, errorthrown) {
+                    jsonValue = jQuery.parseJSON(jqxhr.responseText);
+                    alert(jsonValue.Message);
+                },
+                complete: function () {
+                }
+            });
+
+    });
+    function AppendFileList(data) {
+        console.log(data);
+        var html = '';
+        $.each(data, function (key, item) {
+
+            html += '<tr>';
+            html += '<td>' + item.id + '</th>';
+            html += '<td>' + item.name + '</th>';
+            html += '<td>' + item.phoneNumber + '</th>';
+            html += '<td>' + item.publicKey + '</th>';
+            html += '</tr>';
+
+        });
+        $('#tblList').append(html);
+    }
+
+
+</script>
