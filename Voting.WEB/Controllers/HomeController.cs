@@ -25,12 +25,16 @@ namespace Voting.WEB.Controllers
         public IActionResult Index()
         {
 
+
             List<string> list = new List<string>();
             var result = _p2PNetwork.GetSockets;
             foreach (var item in result)
             {
                 list.Add($"{((IPEndPoint)(item.RemoteEndPoint)).Address.ToString()}:{((IPEndPoint)(item.RemoteEndPoint)).Port.ToString()}");
             }
+
+
+            ViewBag.ListingPort = _p2PNetwork.GetListingPort;
             ViewBag.ConnectedList = list;
             return View();
         }

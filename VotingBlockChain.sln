@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.Infrastructure", "Vo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Voting.WEB", "Voting.WEB\Voting.WEB.csproj", "{9F903434-1994-4AF8-B9FF-24B4CDFD4E7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chain.Admin", "Chain.Admin\Chain.Admin.csproj", "{587A6301-2072-4C5E-9A1C-B8B56AC800CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9F903434-1994-4AF8-B9FF-24B4CDFD4E7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F903434-1994-4AF8-B9FF-24B4CDFD4E7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F903434-1994-4AF8-B9FF-24B4CDFD4E7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{587A6301-2072-4C5E-9A1C-B8B56AC800CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{587A6301-2072-4C5E-9A1C-B8B56AC800CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{587A6301-2072-4C5E-9A1C-B8B56AC800CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{587A6301-2072-4C5E-9A1C-B8B56AC800CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

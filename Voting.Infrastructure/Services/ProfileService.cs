@@ -29,7 +29,7 @@ namespace Voting.Infrastructure.Services
             Wallet wallet = new Wallet();
 
             bool isUserRegistered = await _commonContext.Users.AnyAsync(u => u.PhoneNumber == model.PhoneNumber);
-
+             
             if (isUserRegistered)
                 throw new ValidationException("The entered mobile number is already registered.");
 
@@ -46,9 +46,7 @@ namespace Voting.Infrastructure.Services
                 Role = Role.Voter,
                 PublicKey = result.PublicKey
             });
-
             await _commonContext.SaveChangesAsync();
-
             return result;
         }
 

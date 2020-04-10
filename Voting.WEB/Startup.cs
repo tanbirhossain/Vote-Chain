@@ -58,12 +58,16 @@ namespace Voting.WEB
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1",new OpenApiInfo
+                    {
+                        Title = "Vote Chain API",
+                        Description = "© Mohammed Tanbir Hossain",
+                        Version = "v1"
+                    });
             });
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddHttpContextAccessor();
-
             services.AddScoped<BlockService>();
             services.AddScoped<BlockChainService>();
             services.AddScoped<TransactionPoolService>();
@@ -117,7 +121,7 @@ namespace Voting.WEB
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Vote Chain API V1");
             });
 
 

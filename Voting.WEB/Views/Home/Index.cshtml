@@ -2,16 +2,17 @@
     ViewData["Title"] = "Home Page";
 }
 
-@{ 
+@{
     var p2pList = (List<string>)ViewBag.ConnectedList;
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    <p>GO TO <a href="/swagger">API</a>.</p>
 </div>
 <hr />
 <div class="text-center">
+    <p>Your Listing Port : <span style="color:blue;font-weight:bold">@ViewBag.ListingPort</span></p>
+
     <h5 class="display-4">P2P Connectd List</h5>
     <hr />
     @foreach (var item in p2pList)

@@ -40,4 +40,5 @@ namespace Voting.API.Controllers
             return Ok(result);
         }
     }
+
 }

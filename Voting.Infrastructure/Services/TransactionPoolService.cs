@@ -14,7 +14,6 @@ namespace Voting.Infrastructure.Services
     {
         private readonly TransactionService _transactionService;
         private readonly BlockchainContext _dbContext;
-
         public TransactionPoolService(TransactionService transactionService, BlockchainContext dbContext)
         {
             _transactionService = transactionService;
@@ -68,7 +67,7 @@ namespace Voting.Infrastructure.Services
                 {
                     Console.WriteLine($"Invalid signature from {t.Input.Address}");
                     return false;
-                }
+                }  
 
                 return true;
             }).ToList();

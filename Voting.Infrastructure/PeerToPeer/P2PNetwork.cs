@@ -48,15 +48,8 @@ namespace Voting.Infrastructure.PeerToPeer
         /// </summary>
         private List<Socket> _sockets = new List<Socket>();
 
-        public List<Socket> GetSockets
-        {
-            get
-            {
-                return _sockets;
-            }
-        }
-
-
+        public List<Socket> GetSockets => _sockets;
+        public int GetListingPort => _p2pPort;
         private readonly IServiceProvider _serviceProvider;
 
         public P2PNetwork(IConfiguration configuration, IServiceProvider serviceProvider)
@@ -71,20 +64,24 @@ namespace Voting.Infrastructure.PeerToPeer
        : new List<string>();
 
 
-
-
-
             Console.WriteLine($"Current P2P_Port : {_p2pPort}");
             Console.WriteLine($"Initial Seed Peers : {JsonConvert.SerializeObject(_peers)}");
-
-
-
         }
 
         public void InitialNetwrok()
         {
-            ConnectToPeers();
-            ListenForPeers();
+            try
+            {
+                ConnectToPeers();
+                ListenForPeers();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("P2P Error:", ex.Message);
+            }
+
+            
         }
 
 
