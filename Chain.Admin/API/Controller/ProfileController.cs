@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Voting.Infrastructure.API.Election;
 using Voting.Infrastructure.API.User;
 using Voting.Infrastructure.Model.Profile;
 using Voting.Infrastructure.Services;
@@ -15,14 +16,16 @@ namespace Chain.Admin.API.Controller
     {
         private readonly ProfileService _profileService;
         private readonly WalletService _walletService;
-
+        private readonly ElectionService _electionService;
         public ProfileController(
             ProfileService profileService,
-            WalletService walletService
+            WalletService walletService,
+            ElectionService electionService
         )
         {
             _walletService = walletService;
             _profileService = profileService;
+            _electionService = electionService;
         }
 
         [HttpPost]
@@ -60,6 +63,52 @@ namespace Chain.Admin.API.Controller
             var user = await _profileService.GetUsernameAsync(publicKey);
             return Ok(user);
         }
+
+
+
+
+        #region Election
+        [HttpPost]
+        public async Task<IActionResult> CreateElection(CreateElection election)
+        {
+            await _electionService.CreateElectionAsync(election);
+            return Ok();
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdateElection(UpdateElection election)
+        {
+            await _electionService.UpdateElectionAsync(election);
+
+            return Ok();
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> CloseElection(UpdateElection election)
+        {
+            await _electionService.CloseElectionAsync(election.Id);
+            return Ok();
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> OpenElection(UpdateElection election)
+        {
+            await _electionService.OpenElectionAsync(election.Id);
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> RemoveElection(int electionId)
+        {
+            await _electionService.RemoveElectionAsync(electionId);
+
+            return Ok();
+        }
+
+        #endregion
+
+
+
     }
 
 

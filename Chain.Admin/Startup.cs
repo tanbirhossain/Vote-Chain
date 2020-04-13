@@ -111,7 +111,7 @@ namespace Chain.Admin
             app.UseAuthorization();
 
 
-            app.ApplicationServices.GetService<P2PNetwork>().InitialNetwrok();
+            //app.ApplicationServices.GetService<P2PNetwork>().InitialNetwrok();
 
 
             app.UseCors("BlockChain Policy");
