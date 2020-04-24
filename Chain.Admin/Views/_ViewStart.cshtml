@@ -1,3 +1,8 @@
 ﻿@{
-    Layout = "_Layout";
+    bool isAjaxCall = Context.Request.Headers["x-requested-with"] == "XMLHttpRequest";
+    if (!isAjaxCall)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
+
