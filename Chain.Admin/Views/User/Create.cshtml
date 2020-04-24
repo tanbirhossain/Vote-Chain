@@ -6,8 +6,8 @@
 
 <div class="row">
     <div class="col-6">
-        <div class="card border-dark ">
-            <div class="card-header bg-transparent border-dark">
+        <div class="card">
+            <div class="card-header bg-transparent">
                 Register
             </div>
             <div class="card-body">
@@ -19,7 +19,7 @@
                     <label for="exampleInputEmail1">Phone Number</label>
                     <input type="text" class="form-control" id="phoneNumber" aria-describedby="emailHelp" placeholder="Phone Number">
                 </div>
-                <button type="submit" id="btnSaveInfo" class="btn btn-outline-dark">Submit</button>
+                <button type="submit" id="btnSaveInfo" class="btn my-1">Submit</button>
             </div>
 
         </div>
@@ -29,8 +29,8 @@
     </div>
     <div class="col-6">
 
-        <div class="card border-dark">
-            <div class="card-header bg-transparent border-dark">
+        <div class="card">
+            <div class="card-header bg-transparent">
                 Keys
             </div>
 
@@ -44,8 +44,13 @@
                     </button>
                     <!-- Target -->
                     <textarea class="form-control" id="privateKey" rows="3" readonly></textarea>
-
+                    <br />
+                    <div class="alert alert-danger" role="alert">
+                        Don't share your <strong>Private Key</strong> with anyone!
+                    </div>
                 </div>
+                <hr />
+
                 <div class="form-group">
                     <label>Public Key</label>
                     <!-- Trigger -->
@@ -53,7 +58,7 @@
                         Copy
                     </button>
                     <!-- Target -->
-                    <textarea class="form-control" id="publicKey" rows="3" readonly></textarea>
+                    <textarea class="form-control" id="publicKey" rows="4" readonly></textarea>
 
 
                 </div>

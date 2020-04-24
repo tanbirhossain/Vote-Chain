@@ -1,19 +1,33 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta content="initial-scale=1, shrink-to-fit=no, width=device-width" name="viewport">
     <title>@ViewData["Title"] - VoteChain</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- CSS -->
+    <!-- Add Material font (Roboto) and Material icon as needed -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i|Roboto+Mono:300,400,700|Roboto+Slab:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Add Material CSS, replace Bootstrap CSS -->
+    <link href="~/lib/material-4.1.1-dist/css/material.min.css" rel="stylesheet" />
+    @*<link href="path_to/material.min.css" rel="stylesheet">*@
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- Then Material JavaScript on top of Bootstrap JavaScript -->
+    <script src="~/lib/material-4.1.1-dist/js/material.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="~/js/sammy-0.7.4.min.js"></script>
     <script src="~/js/routing.js"></script>
     <style>
-  
     </style>
 
 </head>
@@ -21,7 +35,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VoteChain</a>
+                <a class="navbar-brand"  href="~/#/Home/Index">VoteChain</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -69,3 +83,6 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+
+@*http://daemonite.github.io/material/docs/4.1/components/card/*@
