@@ -17,7 +17,7 @@
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
 
 
     <!-- Then Material JavaScript on top of Bootstrap JavaScript -->
@@ -43,10 +43,10 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="~/#/User/Index">User List</a>
+                            <a class="nav-link text-dark" href="/#/User/Index">User List</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="~/#/User/Create">Registration</a>
+                            <a class="nav-link text-dark" href="/#/User/Create">Registration</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ElectionView" asp-action="Index">Election</a>
@@ -71,12 +71,12 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - VoteChain - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - VoteChain - <a href="/#/Home/Privacy">Privacy</a>
         </div>
     </footer>
     <script>
             $(function () {
-                var routing = new Routing('@Url.Content("~/")', '#page', 'welcome');
+                var routing = new Routing('@Url.Content("/")', '#page', '~/#/Home/Index');
                 routing.init();
             });
     </script>

@@ -28,7 +28,7 @@ namespace Chain.Admin.API.Controller
         public async Task<IActionResult> GetElections([FromQuery] ElectionSearch model)
         {
             PagedResult<ElectionDTO> elections = await _electionService.GetElectionsAsync(model);
-
+           
             return Ok(elections);
         }
 
