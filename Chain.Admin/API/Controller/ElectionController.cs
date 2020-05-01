@@ -14,12 +14,12 @@ using Voting.Infrastructure.Services;
 namespace Chain.Admin.API.Controller
 {
     [Route("api/[controller]/[action]")]
-    public class ElectionController : BaseController
+    public class ElectionController : ControllerBase// BaseController
     {
         private readonly ElectionService _electionService;
 
-        public ElectionController(ElectionService electionService, IHttpContextAccessor contextAccessor) : base(
-            contextAccessor)
+        public ElectionController(ElectionService electionService, IHttpContextAccessor contextAccessor) 
+          //  : base(contextAccessor)
         {
             _electionService = electionService;
         }
@@ -31,7 +31,6 @@ namespace Chain.Admin.API.Controller
            
             return Ok(elections);
         }
-
         [HttpGet]
         public async Task<IActionResult> GetElection(int electionId)
         {
@@ -39,35 +38,6 @@ namespace Chain.Admin.API.Controller
 
             return Ok(election);
         }
-
-        /// <summary>
-        /// Elections which current user has not voted yet !!
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<IActionResult> GetUnvotedElections()
-        {
-            List<ElectionDTO> elections = await _electionService.GetUnvotedElections(PublicKey);
-            return Ok(elections);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetParticipatedElections()
-        {
-            List<ParticipatedElection> participatedElections =
-                await _electionService.GetParticipatedElectionsAsync(PublicKey);
-            return Ok(participatedElections);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetCandidatedElections()
-        {
-            List<CandidatedElection> candidatedElections =
-                await _electionService.CandidatedElectionAsync(PublicKey);
-
-            return Ok(candidatedElections);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetElectionVotes()
         {
@@ -76,13 +46,15 @@ namespace Chain.Admin.API.Controller
             return Ok(result);
         }
 
+
+        //Here is election
+
         [HttpPost]
-        public async Task<IActionResult> CreateElection([FromBody] CreateElection election)
+        public async Task<IActionResult> CreateElection(CreateElection election)
         {
             await _electionService.CreateElectionAsync(election);
             return Ok();
         }
-
         [HttpPatch]
         public async Task<IActionResult> UpdateElection([FromBody] UpdateElection election)
         {

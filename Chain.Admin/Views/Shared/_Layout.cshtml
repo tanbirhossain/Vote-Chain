@@ -35,7 +35,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand"  href="/#/Home/Index">VoteChain</a>
+                <a class="navbar-brand" href="/#/Home/Index">VoteChain</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -49,13 +49,13 @@
                             <a class="nav-link text-dark" href="/#/User/Create">Registration</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ElectionView" asp-action="Index">Election</a>
+                            <a class="nav-link text-dark" href="/#/ElectionView/Create">Election Create</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="ElectionCandidatesView" asp-action="Index">Candidates</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark"  target=”_blank”  href="/swagger">API UI</a>
+                            <a class="nav-link text-dark" target=”_blank” href="/swagger">API UI</a>
                         </li>
 
                     </ul>
@@ -83,6 +83,176 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-
+<script src="~/js/progress.js"></script>
 
 @*http://daemonite.github.io/material/docs/4.1/components/card/*@
+
+
+
+<style>
+    .spinner {
+        display: inline-block;
+        opacity: 0;
+        width: 0;
+        -webkit-transition: opacity 0.25s, width 0.25s;
+        -moz-transition: opacity 0.25s, width 0.25s;
+        -o-transition: opacity 0.25s, width 0.25s;
+        transition: opacity 0.25s, width 0.25s;
+    }
+
+    .has-spinner.active {
+        cursor: progress;
+    }
+
+        .has-spinner.active .spinner {
+            opacity: 1;
+            width: auto;
+        }
+
+    .has-spinner.btn.active .spinner {
+        min-width: 20px;
+    }
+
+    /*.modal-header {
+        background-color: #01A9AC;
+    }*/
+
+    .modal-content {
+        overflow: hidden;
+    }
+
+  
+</style>
+<script>
+    $(document).ready(function () {
+
+
+        Progress.configure({ "color": ['#404E67'] });
+
+        $(document).ajaxStart(function () {
+            Progress.start();
+            $(".has-spinner").buttonLoader('start');
+        
+        });
+        $(document).ajaxComplete(function () {
+            Progress.complete();
+            $(".has-spinner").buttonLoader('stop');
+        });
+        $(document).ajaxStop(function () {
+            $(".has-spinner").buttonLoader('stop');
+        });
+        //global ajax complete
+        $(document).ajaxError(function (e, xhr, settings) {
+
+            if (xhr.status == 403) {
+               // window.location.href = "/Account/Login";
+            }
+        });
+
+
+        $("select").addClass("form-control");
+        //// make modal center
+        $(function () {
+            function reposition() {
+                var modal = $(this),
+                    dialog = modal.find('.modal-dialog');
+                modal.css('display', 'block');
+
+                // Dividing by two centers the modal exactly, but dividing by three
+                // or four works better for larger screens.
+                dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+            }
+            // Reposition when a modal is shown
+            $('.modal').on('show.bs.modal', reposition);
+            // Reposition when the window is resized
+            $(window).on('resize', function () {
+                $('.modal:visible').each(reposition);
+            });
+        });
+
+
+
+
+
+        //Make modal scrollbar
+        function setModalMaxHeight(element) {
+            this.$element = $(element);
+            this.$content = this.$element.find('.modal-content');
+            var borderWidth = this.$content.outerHeight() - this.$content.innerHeight();
+            var dialogMargin = $(window).width() < 768 ? 20 : 60;
+            var contentHeight = $(window).height() - (dialogMargin + borderWidth);
+            var headerHeight = this.$element.find('.modal-header').outerHeight() || 0;
+            var footerHeight = this.$element.find('.modal-footer').outerHeight() || 0;
+            var maxHeight = contentHeight - (headerHeight + footerHeight);
+
+            this.$content.css({
+                'overflow': 'hidden'
+            });
+
+            this.$element
+                .find('.modal-body').css({
+                    'max-height': maxHeight,
+                    'overflow-y': 'auto'
+                });
+        }
+
+        $('.modal').on('show.bs.modal', function () {
+            $(this).show();
+            setModalMaxHeight(this);
+        });
+
+        $(window).resize(function () {
+            if ($('.modal.in').length != 0) {
+                setModalMaxHeight($('.modal.in'));
+            }
+        });
+
+
+    });
+
+
+    ////Loader
+    (function ($) {
+        $.fn.buttonLoader = function (action) {
+            var self = $(this);
+            if (action == 'start') {
+                if ($(self).attr("disabled") == "disabled") {
+                    e.preventDefault();
+                }
+                $('.has-spinner').attr("disabled", "disabled");
+                $(self).attr('data-btn-text', $(self).text());
+                $(self).html('<span class="spinner"><i class="fa fa-spinner fa-spin"></i></span>');
+                $(self).addClass('active');
+            }
+            if (action == 'stop') {
+                $(self).html($(self).attr('data-btn-text'));
+                $(self).removeClass('active');
+                $('.has-spinner').removeAttr("disabled");
+            }
+        }
+
+        $.fn.ValidationMessage = function (isSuccess, message) {
+            if (isSuccess) {
+                new PNotify({
+                    title: 'Success',
+                    text: message,
+                    delay: 2500,
+                    //addclass: 'pnotify-center',
+                    icon: 'icofont icofont-info-circle',
+                    type: 'success'
+                });
+            } else {
+                new PNotify({
+                    title: 'Warning',
+                    text: message,
+                    icon: 'icofont icofont-info-circle',
+                    //addclass: 'pnotify-center',
+                    delay: 2500,
+                    type: 'default'
+                });
+            }
+        }
+    })(jQuery);
+
+ 
+</script>
