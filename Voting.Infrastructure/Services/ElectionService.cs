@@ -149,10 +149,10 @@ namespace Voting.Infrastructure.Services
                     elections.SelectMany(e => e.Candidates).Select(c => c.CandidateAddress).Contains(u.PublicKey))
                 .ToListAsync();
 
+    
+
             result.TotalCount = elections.Count();
-
             result.Items = elections;
-
             foreach (var candidate in result.Items.SelectMany(i => i.Candidates))
             {
                 candidate.CandidateName =
