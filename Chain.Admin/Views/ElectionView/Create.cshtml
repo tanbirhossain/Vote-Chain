@@ -1,21 +1,87 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
-<h2>Master details entry form</h2>
-<div class="container">
-    <div class="master">
-        <h2>Order</h2>
-        <table class="table table-responsive">
-            
-            <tr>
-                <td>Name</td>
-                <td colspan="3">
-                    <textarea id="description" class="form-control"></textarea>
-                    <span class="error">Order no required</span>
-                </td>
-            </tr>
-        </table>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-transparent">
+                Election Information
+            </div>
+            <div class="card-body">
+
+
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="floating-label">
+                            <label for="name">Election Name</label>
+                            <input aria-describedby="exampleIconInput8Help" class="form-control" id="name" placeholder="" type="text">
+                        </div>
+
+                    </div>
+                </div>
+
+             
+
+            </div>
+        </div>
     </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-transparent">
+                Candidate Information
+            </div>
+            <div class="card-body">
+                <table class="table table-responsive">
+                    <tr class="mycontainer" id="mainrow">
+
+                        <td style="width:80em">
+                            <div class="form-group">
+                                <textarea id="candidateAddess" class="candidateAddess form-control" rows="1" placeholder="Candidate Address"></textarea>
+                            </div>
+                            <span class="error">Valid rate required</span>
+                        </td>
+                        <td>
+                            <input type="button" id="add" value="add" class="btn btn-light btn-sm" />
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="table table-responsive" id="orderdetailsItems"></table>
+                <span id="orderItemError" style="color:red"></span>
+
+                @*<div id="orderItems">
+                </div>*@
+
+            </div>
+            <div class="card-footer">
+                <input id="submit" type="button" value="Save Order" class="btn btn-primary has-spinner" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<div class="container">
+    <div class="master">
+            <h2>Order</h2>
+            <table class="table table-responsive">
+
+                <tr>
+                    <td>Name</td>
+                    <td colspan="3">
+                        <textarea id="description" class="form-control"></textarea>
+                        <span class="error">Order no required</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
     <div class="details">
         <h2>
             Order items
@@ -23,11 +89,11 @@
         <table class="table table-responsive">
             <tr>
                 <td>Candidate Pubic Key</td>
-               
+
                 <td>&nbsp;</td>
             </tr>
             <tr class="mycontainer" id="mainrow">
-              
+
                 <td>
                     <input type="text" id="rate" class="rate form-control" />
                     <span class="error">Valid rate required</span>
@@ -45,7 +111,7 @@
             <input id="submit" type="button" value="Save Order" class="btn btn-warning has-spinner" style="padding:10px 20px" />
         </div>
     </div>
-</div>
+</div>*@
 
 <script src="~/js/ElectionCreate.js"></script>
 

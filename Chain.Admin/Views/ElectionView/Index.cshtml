@@ -3,5 +3,83 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Election List &nbsp;&nbsp;<a class="btn btn-outline-info" href="/#/ElectionView/Create">Create New</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-sm table-responsive">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Total Candidates</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblList">
+                    </tbody>
+                </table>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+
+            var _url = "/api/Election/GetElectionList";
+            $.ajax({
+                type: "GET",
+                url: _url,
+
+                success: function (data) {
+                    console.log("update : ", data);
+                    AppendFileList(data.items);
+                },
+                error: function (jqxhr, textstatus, errorthrown) {
+                    jsonValue = jQuery.parseJSON(jqxhr.responseText);
+                    alert(jsonValue.Message);
+                },
+                complete: function () {
+                }
+            });
+
+    });
+    function AppendFileList(data) {
+        console.log(data);
+        var html = '';
+        $.each(data, function (key, item) {
+
+            html += '<tr>';
+            html += '<td><a href="/#/ElectionView/Details?electionId=' + item.id + '">Details</a></th>';
+            html += '<td>' + item.id + '</th>';
+            html += '<td>' + item.name + '</th>';
+
+            if (item.status == 1) {
+                 html += '<td><span class="badge badge-info">' + "Pending" + '</span></th>';
+            }
+            else {
+                 html += '<td><span class="badge badge-dark">' + "Closed" + '</span></th>';
+            }
+             html += '<td><span class="badge badge-pill badge-light">' + item.candidates.length + '</span></th>';
+
+            html += '<td>' + item.address + '</th>';
+            html += '</tr>';
+
+        });
+        $('#tblList').append(html);
+    }
+      //<th></th>
+      //                      <th>Name</th>
+      //                      <th>Status</th>
+      //                      <th>Total Candidates</th>
+      //                      <th>Address</th>
+
+</script>

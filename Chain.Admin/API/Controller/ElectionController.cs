@@ -31,10 +31,25 @@ namespace Chain.Admin.API.Controller
            
             return Ok(elections);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetElectionList([FromQuery] ElectionSearch model)
+        {
+            PagedResult<ElectionDTO> elections = await _electionService.GetElectionsListAsync(model);
+
+            return Ok(elections);
+        }
         [HttpGet]
         public async Task<IActionResult> GetElection(int electionId)
         {
             ElectionDTO election = await _electionService.GetElectionAsync(electionId);
+
+            return Ok(election);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetElectionDetails(int electionId)
+        {
+            ElectionDTO election = await _electionService.GetElectionDetailsByIdAsync(electionId);
 
             return Ok(election);
         }

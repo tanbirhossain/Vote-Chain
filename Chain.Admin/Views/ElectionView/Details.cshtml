@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewData["Title"] = "Candidates";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Election Information
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-sm table-responsive">
+                    <tbody>
+                        <tr>
+
+                            <td>Election Name</td>
+                            <td id="electionName">Otto</td>
+
+                        </tr>
+                        <tr>
+
+                            <td>status</td>
+                            <td id="electionStatus">address</td>
+
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td id="electionAddress">Larry the Bird</td>
+
+                        </tr>
+                        <tr>
+                            <td>Total Candidates</td>
+                            <td id="electionTotalCandidates">Larry the Bird</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Candidate List
+            </div>
+            <div class="card-body">
+                <table class="table table-hover table-sm table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblList">
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var _url = "/api/Election/GetElectionDetails?electionId="+ getQueryString("electionId");
+        $.ajax({
+            type: "GET",
+            url: _url,
+            success: function (data) {
+                $("#electionName").html(data.name);
+                var electionStatusHtml = '';
+                if (data.status == 1) {
+                      electionStatusHtml += '<span class="badge badge-info">'+"Pending" +'</span>';
+                }
+                else {
+                   electionStatusHtml += '<span class="badge badge-dark">'+"Closed" +'</span>';
+                }
+                $("#electionStatus").html(electionStatusHtml);
+
+                
+                $("#electionAddress").html(data.address);
+
+
+                var electionTotalCandidatesHtml = '<span class="badge badge-pill badge-primary">' + data.candidates.length + '</span>';
+                $("#electionTotalCandidates").html(electionTotalCandidatesHtml);
+
+
+                AppendList(data.candidates);
+            },
+            error: function (jqxhr, textstatus, errorthrown) {
+                jsonValue = jQuery.parseJSON(jqxhr.responseText);
+                alert(jsonValue.Message);
+            },
+            complete: function () {
+            }
+        });
+
+    });
+    function AppendList(data) {
+        console.log(data);
+        var html = '';
+        $.each(data, function (key, item) {
+
+            html += '<tr>';
+            html += '<td>' + item.candidateName + '</th>';
+            html += '<td>' + item.candidateAddress + '</th>';
+            html += '</tr>';
+
+        });
+        $('#tblList').append(html);
+    }
+
+</script>

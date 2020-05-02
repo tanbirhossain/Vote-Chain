@@ -11,13 +11,19 @@ namespace Chain.Admin.Controllers
     public class ElectionViewController : Controller
     {
         // GET: Profile
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             return View();
         }
 
         // GET: Profile
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // GET: Profile
+        public ActionResult Details(int electionId)
         {
             return View();
         }

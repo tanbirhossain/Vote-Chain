@@ -144,10 +144,16 @@ namespace Voting.Infrastructure.Services
                 .ProjectTo<ElectionDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
+
+            var _candidates = elections.SelectMany(e => e.Candidates);
             var candidates = await _commonDbContext.Users
-                .Where(u =>
-                    elections.SelectMany(e => e.Candidates).Select(c => c.CandidateAddress).Contains(u.PublicKey))
-                .ToListAsync();
+               .Where(u => _candidates.Select(c => c.CandidateAddress).Contains(u.PublicKey))
+               .ToListAsync();
+
+            //var candidates = await _commonDbContext.Users
+            //    .Where(u =>
+            //        elections.SelectMany(e => e.Candidates).Select(c => c.CandidateAddress).Contains(u.PublicKey))
+            //    .ToListAsync();
 
     
 
@@ -161,6 +167,26 @@ namespace Voting.Infrastructure.Services
                         : "";
             }
 
+            return result;
+        }
+
+
+        public async Task<PagedResult<ElectionDTO>> GetElectionsListAsync(ElectionSearch model)
+        {
+            PagedResult<ElectionDTO> result = new PagedResult<ElectionDTO>();
+
+            model.Name = model.Name ?? "";
+            model.Address = model.Address ?? "";
+
+            var elections = await _commonDbContext.Elections
+                .Where(e => e.Name.Contains(model.Name) &&
+                            e.Address.Contains(model.Address))
+                .OrderByDescending(e => e.InsertDate)
+                .ProjectTo<ElectionDTO>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            result.TotalCount = elections.Count();
+            result.Items = elections;
             return result;
         }
 
@@ -200,6 +226,34 @@ namespace Voting.Infrastructure.Services
 
             if (election == null)
                 throw new NotFoundException("انتخابات");
+
+            return election;
+        }
+
+        public async Task<ElectionDTO> GetElectionDetailsByIdAsync(int electionId)
+        {
+            ElectionDTO election = await _commonDbContext.Elections
+                .Include(e => e.Candidates)
+                .ProjectTo<ElectionDTO>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync(e => e.Id == electionId);
+
+
+            //find user list
+            var _candidates = election.Candidates;
+            var candidates = await _commonDbContext.Users
+               .Where(u => _candidates.Select(c => c.CandidateAddress).Contains(u.PublicKey))
+               .ToListAsync();
+            // push username
+            foreach (var candidate in election.Candidates)
+            {
+                candidate.CandidateName =
+                    candidates.Any(c => c.PublicKey == candidate.CandidateAddress)
+                        ? candidates.Single(c => c.PublicKey == candidate.CandidateAddress).Name
+                        : "";
+            }
+
+            //if (election == null)
+            //    throw new NotFoundException("انتخابات");
 
             return election;
         }

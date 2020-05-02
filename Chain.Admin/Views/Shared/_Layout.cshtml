@@ -27,8 +27,215 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="~/js/sammy-0.7.4.min.js"></script>
     <script src="~/js/routing.js"></script>
+    <script src="~/js/progress.js"></script>
+
+    @*http://daemonite.github.io/material/docs/4.1/components/card/*@
+
+
+
     <style>
+            .spinner {
+                display: inline-block;
+                opacity: 0;
+                width: 0;
+                -webkit-transition: opacity 0.25s, width 0.25s;
+                -moz-transition: opacity 0.25s, width 0.25s;
+                -o-transition: opacity 0.25s, width 0.25s;
+                transition: opacity 0.25s, width 0.25s;
+            }
+
+            .has-spinner.active {
+                cursor: progress;
+            }
+
+                .has-spinner.active .spinner {
+                    opacity: 1;
+                    width: auto;
+                }
+
+            .has-spinner.btn.active .spinner {
+                min-width: 20px;
+            }
+
+            /*.modal-header {
+            background-color: #01A9AC;
+        }*/
+
+            .modal-content {
+                overflow: hidden;
+            }
     </style>
+    <script>
+
+        function addOrUpdateUrlParam(paramKey, paramVal) {
+            var uri = document.location.toString();
+            key = paramKey;
+            value = paramVal;
+            // remove the hash part before operating on the uri
+            var i = uri.indexOf('#');
+            var hash = i === -1 ? '' : uri.substr(i);
+            uri = i === -1 ? uri : uri.substr(0, i);
+            var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+            var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+
+            if (!value) {
+                // remove key-value pair if value is empty
+                uri = uri.replace(new RegExp("([?&]?)" + key + "=[^&]*", "i"), '');
+                if (uri.slice(-1) === '?') {
+                    uri = uri.slice(0, -1);
+                }
+                // replace first occurrence of & by ? if no ? is present
+                if (uri.indexOf('?') === -1) uri = uri.replace(/&/, '?');
+            } else if (uri.match(re)) {
+                uri = uri.replace(re, '$1' + key + "=" + value + '$2');
+            } else {
+                uri = uri + separator + key + "=" + value;
+            }
+            window.history.pushState("data", "Title", uri + hash);
+            //return uri + hash;
+        }
+
+
+        function getQueryString(field) {
+            var href = window.location.href;
+            var reg = new RegExp('[?&]' + field + '=([^&#]*)', 'i');
+            var string = reg.exec(href);
+            return string ? string[1] : null;
+        }
+
+
+        $(document).ready(function () {
+
+
+            Progress.configure({ "color": ['#1D84D6'] });
+
+            $(document).ajaxStart(function () {
+                Progress.start();
+                $(".has-spinner").buttonLoader('start');
+
+            });
+            $(document).ajaxComplete(function () {
+                Progress.complete();
+                $(".has-spinner").buttonLoader('stop');
+            });
+            $(document).ajaxStop(function () {
+                $(".has-spinner").buttonLoader('stop');
+            });
+            //global ajax complete
+            $(document).ajaxError(function (e, xhr, settings) {
+
+                if (xhr.status == 403) {
+                    // window.location.href = "/Account/Login";
+                }
+            });
+
+
+            $("select").addClass("form-control");
+            //// make modal center
+            $(function () {
+                function reposition() {
+                    var modal = $(this),
+                        dialog = modal.find('.modal-dialog');
+                    modal.css('display', 'block');
+
+                    // Dividing by two centers the modal exactly, but dividing by three
+                    // or four works better for larger screens.
+                    dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+                }
+                // Reposition when a modal is shown
+                $('.modal').on('show.bs.modal', reposition);
+                // Reposition when the window is resized
+                $(window).on('resize', function () {
+                    $('.modal:visible').each(reposition);
+                });
+            });
+
+
+
+
+
+            //Make modal scrollbar
+            function setModalMaxHeight(element) {
+                this.$element = $(element);
+                this.$content = this.$element.find('.modal-content');
+                var borderWidth = this.$content.outerHeight() - this.$content.innerHeight();
+                var dialogMargin = $(window).width() < 768 ? 20 : 60;
+                var contentHeight = $(window).height() - (dialogMargin + borderWidth);
+                var headerHeight = this.$element.find('.modal-header').outerHeight() || 0;
+                var footerHeight = this.$element.find('.modal-footer').outerHeight() || 0;
+                var maxHeight = contentHeight - (headerHeight + footerHeight);
+
+                this.$content.css({
+                    'overflow': 'hidden'
+                });
+
+                this.$element
+                    .find('.modal-body').css({
+                        'max-height': maxHeight,
+                        'overflow-y': 'auto'
+                    });
+            }
+
+            $('.modal').on('show.bs.modal', function () {
+                $(this).show();
+                setModalMaxHeight(this);
+            });
+
+            $(window).resize(function () {
+                if ($('.modal.in').length != 0) {
+                    setModalMaxHeight($('.modal.in'));
+                }
+            });
+
+
+        });
+
+
+        ////Loader
+        (function ($) {
+            $.fn.buttonLoader = function (action) {
+                var self = $(this);
+                if (action == 'start') {
+                    if ($(self).attr("disabled") == "disabled") {
+                        e.preventDefault();
+                    }
+                    $('.has-spinner').attr("disabled", "disabled");
+                    $(self).attr('data-btn-text', $(self).text());
+                    $(self).html('<span class="spinner"><i class="fa fa-spinner fa-spin"></i></span>');
+                    $(self).addClass('active');
+                }
+                if (action == 'stop') {
+                    $(self).html($(self).attr('data-btn-text'));
+                    $(self).removeClass('active');
+                    $('.has-spinner').removeAttr("disabled");
+                }
+            }
+
+            $.fn.ValidationMessage = function (isSuccess, message) {
+                if (isSuccess) {
+                    new PNotify({
+                        title: 'Success',
+                        text: message,
+                        delay: 2500,
+                        //addclass: 'pnotify-center',
+                        icon: 'icofont icofont-info-circle',
+                        type: 'success'
+                    });
+                } else {
+                    new PNotify({
+                        title: 'Warning',
+                        text: message,
+                        icon: 'icofont icofont-info-circle',
+                        //addclass: 'pnotify-center',
+                        delay: 2500,
+                        type: 'default'
+                    });
+                }
+            }
+        })(jQuery);
+
+
+    </script>
 
 </head>
 <body>
@@ -43,17 +250,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/#/User/Index">User List</a>
+                            <a class="nav-link text-dark" href="/#/User/Index">Users</a>
                         </li>
+                   
                         <li class="nav-item">
-                            <a class="nav-link text-dark" href="/#/User/Create">Registration</a>
+                            <a class="nav-link text-dark" href="/#/ElectionView/Index">Elections</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="/#/ElectionView/Create">Election Create</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="ElectionCandidatesView" asp-action="Index">Candidates</a>
-                        </li>
+                 
                         <li class="nav-item">
                             <a class="nav-link text-dark" target=”_blank” href="/swagger">API UI</a>
                         </li>
@@ -83,176 +286,3 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-<script src="~/js/progress.js"></script>
-
-@*http://daemonite.github.io/material/docs/4.1/components/card/*@
-
-
-
-<style>
-    .spinner {
-        display: inline-block;
-        opacity: 0;
-        width: 0;
-        -webkit-transition: opacity 0.25s, width 0.25s;
-        -moz-transition: opacity 0.25s, width 0.25s;
-        -o-transition: opacity 0.25s, width 0.25s;
-        transition: opacity 0.25s, width 0.25s;
-    }
-
-    .has-spinner.active {
-        cursor: progress;
-    }
-
-        .has-spinner.active .spinner {
-            opacity: 1;
-            width: auto;
-        }
-
-    .has-spinner.btn.active .spinner {
-        min-width: 20px;
-    }
-
-    /*.modal-header {
-        background-color: #01A9AC;
-    }*/
-
-    .modal-content {
-        overflow: hidden;
-    }
-
-  
-</style>
-<script>
-    $(document).ready(function () {
-
-
-        Progress.configure({ "color": ['#404E67'] });
-
-        $(document).ajaxStart(function () {
-            Progress.start();
-            $(".has-spinner").buttonLoader('start');
-        
-        });
-        $(document).ajaxComplete(function () {
-            Progress.complete();
-            $(".has-spinner").buttonLoader('stop');
-        });
-        $(document).ajaxStop(function () {
-            $(".has-spinner").buttonLoader('stop');
-        });
-        //global ajax complete
-        $(document).ajaxError(function (e, xhr, settings) {
-
-            if (xhr.status == 403) {
-               // window.location.href = "/Account/Login";
-            }
-        });
-
-
-        $("select").addClass("form-control");
-        //// make modal center
-        $(function () {
-            function reposition() {
-                var modal = $(this),
-                    dialog = modal.find('.modal-dialog');
-                modal.css('display', 'block');
-
-                // Dividing by two centers the modal exactly, but dividing by three
-                // or four works better for larger screens.
-                dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
-            }
-            // Reposition when a modal is shown
-            $('.modal').on('show.bs.modal', reposition);
-            // Reposition when the window is resized
-            $(window).on('resize', function () {
-                $('.modal:visible').each(reposition);
-            });
-        });
-
-
-
-
-
-        //Make modal scrollbar
-        function setModalMaxHeight(element) {
-            this.$element = $(element);
-            this.$content = this.$element.find('.modal-content');
-            var borderWidth = this.$content.outerHeight() - this.$content.innerHeight();
-            var dialogMargin = $(window).width() < 768 ? 20 : 60;
-            var contentHeight = $(window).height() - (dialogMargin + borderWidth);
-            var headerHeight = this.$element.find('.modal-header').outerHeight() || 0;
-            var footerHeight = this.$element.find('.modal-footer').outerHeight() || 0;
-            var maxHeight = contentHeight - (headerHeight + footerHeight);
-
-            this.$content.css({
-                'overflow': 'hidden'
-            });
-
-            this.$element
-                .find('.modal-body').css({
-                    'max-height': maxHeight,
-                    'overflow-y': 'auto'
-                });
-        }
-
-        $('.modal').on('show.bs.modal', function () {
-            $(this).show();
-            setModalMaxHeight(this);
-        });
-
-        $(window).resize(function () {
-            if ($('.modal.in').length != 0) {
-                setModalMaxHeight($('.modal.in'));
-            }
-        });
-
-
-    });
-
-
-    ////Loader
-    (function ($) {
-        $.fn.buttonLoader = function (action) {
-            var self = $(this);
-            if (action == 'start') {
-                if ($(self).attr("disabled") == "disabled") {
-                    e.preventDefault();
-                }
-                $('.has-spinner').attr("disabled", "disabled");
-                $(self).attr('data-btn-text', $(self).text());
-                $(self).html('<span class="spinner"><i class="fa fa-spinner fa-spin"></i></span>');
-                $(self).addClass('active');
-            }
-            if (action == 'stop') {
-                $(self).html($(self).attr('data-btn-text'));
-                $(self).removeClass('active');
-                $('.has-spinner').removeAttr("disabled");
-            }
-        }
-
-        $.fn.ValidationMessage = function (isSuccess, message) {
-            if (isSuccess) {
-                new PNotify({
-                    title: 'Success',
-                    text: message,
-                    delay: 2500,
-                    //addclass: 'pnotify-center',
-                    icon: 'icofont icofont-info-circle',
-                    type: 'success'
-                });
-            } else {
-                new PNotify({
-                    title: 'Warning',
-                    text: message,
-                    icon: 'icofont icofont-info-circle',
-                    //addclass: 'pnotify-center',
-                    delay: 2500,
-                    type: 'default'
-                });
-            }
-        }
-    })(jQuery);
-
- 
-</script>

@@ -11,18 +11,30 @@
                 Register
             </div>
             <div class="card-body">
-             
+
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Name">
+                    <div class="input-group">
+                        <div class="floating-label">
+                            <label for="exampleInputPassword1">Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="">
+                        </div>
+
+                    </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Phone Number</label>
-                    <input type="text" class="form-control" id="phoneNumber" aria-describedby="emailHelp" placeholder="Phone Number">
+                    <div class="input-group">
+                        <div class="floating-label">
+                            <label for="exampleInputEmail1">Phone Number</label>
+                            <input type="text" class="form-control" id="phoneNumber" aria-describedby="emailHelp" placeholder="">
+                        </div>
+
+                    </div>
                 </div>
+            </div>
+            <div class="card-footer">
                 <button type="submit" id="btnSaveInfo" class="btn btn-primary has-spinner">Submit</button>
             </div>
-
         </div>
 
 
@@ -37,8 +49,19 @@
 
 
             <div class="card-body">
+
                 <div class="form-group">
-                    <label>Private Key</label>
+                    <label class="col-form-label">Public Key</label>
+                    <!-- Trigger -->
+                    <button class="copy btn btn-outline-info btn-sm" data-clipboard-target="#publicKey">
+                        Copy
+                    </button>
+                    <!-- Target -->
+                    <textarea class="form-control" id="publicKey" rows="4" readonly></textarea>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label class="col-form-label">Private Key</label>
                     <!-- Trigger -->
                     <button class="copy btn btn-outline-info btn-sm" data-clipboard-target="#privateKey">
                         Copy
@@ -50,19 +73,8 @@
                         Don't share your <strong>Private Key</strong> with anyone!
                     </div>
                 </div>
-                <hr />
-
-                <div class="form-group">
-                    <label>Public Key</label>
-                    <!-- Trigger -->
-                    <button class="copy btn btn-outline-info btn-sm" data-clipboard-target="#publicKey">
-                        Copy
-                    </button>
-                    <!-- Target -->
-                    <textarea class="form-control" id="publicKey" rows="4" readonly></textarea>
 
 
-                </div>
 
             </div>
 
