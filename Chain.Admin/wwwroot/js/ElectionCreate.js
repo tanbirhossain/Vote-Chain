@@ -62,12 +62,12 @@ $(document).ready(function () {
         })
 
         if (errorItemCount > 0) {
-            $('#orderItemError').text(errorItemCount + " invalid entry in order item list.");
+            $('#orderItemError').text(errorItemCount + " invalid candidate in list.");
             isAllValid = false;
         }
 
         if (list.length == 0) {
-            $('#orderItemError').text('At least 1 order item required.');
+            $('#orderItemError').text('At least candidate required.');
             isAllValid = false;
         }
 

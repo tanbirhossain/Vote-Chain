@@ -66,7 +66,7 @@ namespace Voting.Infrastructure.Services
 
             if (invalidCandidates.Any())
                 throw new Voting.Model.Exceptions.ValidationException(
-                    "آدرس وارد شده برای کاندیدا ها اشتباه است" + Environment.NewLine +
+                    "The address entered is incorrect for candidates" + Environment.NewLine +
                     string.Join(" , ", invalidCandidates));
         }
 
@@ -197,7 +197,7 @@ namespace Voting.Infrastructure.Services
                 .SingleOrDefaultAsync(e => e.Id == electionId);
 
             if (election == null)
-                throw new NotFoundException("انتخابات");
+                throw new NotFoundException("election");
 
             if (!election.Candidates.Any(c => c.Candidate == candidateAddress))
             {
@@ -225,7 +225,7 @@ namespace Voting.Infrastructure.Services
                 .SingleOrDefaultAsync(e => e.Id == electionId);
 
             if (election == null)
-                throw new NotFoundException("انتخابات");
+                throw new NotFoundException("election");
 
             return election;
         }
@@ -253,7 +253,7 @@ namespace Voting.Infrastructure.Services
             }
 
             //if (election == null)
-            //    throw new NotFoundException("انتخابات");
+            //    throw new NotFoundException("election");
 
             return election;
         }
@@ -402,7 +402,7 @@ namespace Voting.Infrastructure.Services
             Election election = await _commonDbContext.Elections.SingleOrDefaultAsync(e => e.Id == electionId);
 
             if (election == null)
-                throw new NotFoundException("انتخابات");
+                throw new NotFoundException("election");
 
             election.Status = ElectionStatus.Closed;
 
@@ -416,7 +416,7 @@ namespace Voting.Infrastructure.Services
             Election election = await _commonDbContext.Elections.SingleOrDefaultAsync(e => e.Id == electionId);
 
             if (election == null)
-                throw new NotFoundException("انتخابات");
+                throw new NotFoundException("election");
 
             election.Status = ElectionStatus.Pending;
 
