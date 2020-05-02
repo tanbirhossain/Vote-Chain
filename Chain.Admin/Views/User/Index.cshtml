@@ -8,11 +8,10 @@
         <div class="card">
             <div class="card-header">
                 User List
-             
-                &nbsp;&nbsp;<a class="btn btn-outline-info" href="/#/User/Create">Create New</a>
+                <a class="btn btn-primary btn-sm float-right" href="/#/User/Create">Create New</a>
             </div>
             <div class="card-body">
-                <table class="table table-hover table-sm table-responsive">
+                <table class="table table-hover table-responsive-sm table-responsive-md table-responsive-lg table-sm table-bordered">
                     <thead>
                         <tr>
                             <th>Id</th>
@@ -22,7 +21,6 @@
                         </tr>
                     </thead>
                     <tbody id="tblList">
-                       
                     </tbody>
                 </table>
 
@@ -34,23 +32,23 @@
 <script>
     $(document).ready(function () {
 
- 
-            var _url = "/api/profile/GetUsers";
-            $.ajax({
-                type: "GET",
-                url: _url,
-              
-                success: function (data) {
-                    console.log("update : ", data);
-                    AppendFileList(data.items);
-                },
-                error: function (jqxhr, textstatus, errorthrown) {
-                    jsonValue = jQuery.parseJSON(jqxhr.responseText);
-                    alert(jsonValue.Message);
-                },
-                complete: function () {
-                }
-            });
+
+        var _url = "/api/profile/GetUsers";
+        $.ajax({
+            type: "GET",
+            url: _url,
+
+            success: function (data) {
+                console.log("update : ", data);
+                AppendFileList(data.items);
+            },
+            error: function (jqxhr, textstatus, errorthrown) {
+                jsonValue = jQuery.parseJSON(jqxhr.responseText);
+                alert(jsonValue.Message);
+            },
+            complete: function () {
+            }
+        });
 
     });
     function AppendFileList(data) {
