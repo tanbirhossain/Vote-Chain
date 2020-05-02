@@ -3,8 +3,10 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta content="initial-scale=1, shrink-to-fit=no, width=device-width" name="viewport">
-    <title>@ViewData["Title"] - VoteChain</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @*<meta content="initial-scale=1, shrink-to-fit=no, width=device-width" name="viewport">*@
+    @*<meta name="viewport" content="width=device-width, initial-scale=1.0" />*@
+    <title>@ViewData["Title"] - Votechain</title>
 
     <!-- CSS -->
     <!-- Add Material font (Roboto) and Material icon as needed -->
@@ -13,18 +15,12 @@
 
     <!-- Add Material CSS, replace Bootstrap CSS -->
     <link href="~/lib/material-4.1.1-dist/css/material.css" rel="stylesheet" />
-    @*<link href="path_to/material.min.css" rel="stylesheet">*@
-    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <script src="~/lib/material-4.1.1-dist/js/material.min.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" />
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-
-    <!-- Then Material JavaScript on top of Bootstrap JavaScript -->
-    <script src="~/lib/material-4.1.1-dist/js/material.min.js"></script>
-
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <link rel="stylesheet" href="~/css/site.css" />
     <script src="~/js/sammy-0.7.4.min.js"></script>
     <script src="~/js/routing.js"></script>
     <script src="~/js/progress.js"></script>
@@ -34,36 +30,36 @@
 
 
     <style>
-            .spinner {
-                display: inline-block;
-                opacity: 0;
-                width: 0;
-                -webkit-transition: opacity 0.25s, width 0.25s;
-                -moz-transition: opacity 0.25s, width 0.25s;
-                -o-transition: opacity 0.25s, width 0.25s;
-                transition: opacity 0.25s, width 0.25s;
+        .spinner {
+            display: inline-block;
+            opacity: 0;
+            width: 0;
+            -webkit-transition: opacity 0.25s, width 0.25s;
+            -moz-transition: opacity 0.25s, width 0.25s;
+            -o-transition: opacity 0.25s, width 0.25s;
+            transition: opacity 0.25s, width 0.25s;
+        }
+
+        .has-spinner.active {
+            cursor: progress;
+        }
+
+            .has-spinner.active .spinner {
+                opacity: 1;
+                width: auto;
             }
 
-            .has-spinner.active {
-                cursor: progress;
-            }
+        .has-spinner.btn.active .spinner {
+            min-width: 20px;
+        }
 
-                .has-spinner.active .spinner {
-                    opacity: 1;
-                    width: auto;
-                }
-
-            .has-spinner.btn.active .spinner {
-                min-width: 20px;
-            }
-
-            /*.modal-header {
+        /*.modal-header {
             background-color: #01A9AC;
         }*/
 
-            .modal-content {
-                overflow: hidden;
-            }
+        .modal-content {
+            overflow: hidden;
+        }
     </style>
     <script>
 
@@ -244,7 +240,7 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" href="/#/Home/Index">VoteChain</a>
+                <a class="navbar-brand" href="/#/Home/Index">Votechain</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -254,13 +250,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/#/User/Index">Users</a>
                         </li>
-                   
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/#/ElectionView/Index">Elections</a>
                         </li>
-                 
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" target=”_blank” href="/swagger">API UI</a>
+                            <a class="nav-link text-dark" href="/#/Home/Api">API UI</a>
                         </li>
 
                     </ul>
@@ -268,6 +264,9 @@
             </div>
         </nav>
     </header>
+
+
+
     <div class="container">
         <main id="page" role="main" class="pb-3">
             @RenderBody()
@@ -276,12 +275,12 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - VoteChain - <a href="/#/Home/Privacy">Privacy</a>
+            &copy; 2020 - Mohammed Tanbir Hossain - <a href="/#/Home/Privacy">Privacy</a>
         </div>
     </footer>
     <script>
             $(function () {
-                var routing = new Routing('@Url.Content("/")', '#page', '~/#/Home/Index');
+                var routing = new Routing('@Url.Content("/")', '#page', '/#/Home/Index');
                 routing.init();
             });
     </script>

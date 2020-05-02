@@ -63,7 +63,7 @@ namespace Chain.Admin
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Vote Chain API",
+                    Title = "Votechain API",
                     Description = "© Mohammed Tanbir Hossain",
                     Version = "v1"
                 });

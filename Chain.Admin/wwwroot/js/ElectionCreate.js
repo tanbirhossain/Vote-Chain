@@ -8,6 +8,7 @@ $(document).ready(function () {
 
         if (!($('#candidateAddess').val().trim() != '')) {
             isAllValid = false;
+            console.log("error");
             $('#candidateAddess').siblings('span.error').css('visibility', 'visible');
         }
         else {

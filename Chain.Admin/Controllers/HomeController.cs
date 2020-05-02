@@ -22,7 +22,10 @@ namespace Chain.Admin.Controllers
         {
             return View();
         }
-
+        public IActionResult Api()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
