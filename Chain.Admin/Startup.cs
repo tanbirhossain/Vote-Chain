@@ -43,11 +43,32 @@ namespace Chain.Admin
 
             string connection = string.Format(Configuration.GetConnectionString("BlockchainContext"), p2p_port);
 
+
+            #region Database Sql Server connection
+            //services.AddDbContext<BlockchainContext>(opt =>
+            //opt.UseSqlServer(connection));
+
+            //services.AddDbContext<BlockchainCommonContext>(opt =>
+            //    opt.UseSqlServer(Configuration.GetConnectionString("BlockchainCommonContext")));
+            #endregion
+
+
+            #region Database SqlLite Connection
             services.AddDbContext<BlockchainContext>(opt =>
-                opt.UseSqlServer(connection));
+            opt.UseSqlite("Filename=./wwwroot/data/BlockchainDatabase.db"));
+
+            //optionsBuilder.UseSqlite("Filename=wwwroot/data/BlockchainDatabase.db", options =>
+            //{
+            //    options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+            //});
+           
 
             services.AddDbContext<BlockchainCommonContext>(opt =>
-                opt.UseSqlServer(Configuration.GetConnectionString("BlockchainCommonContext")));
+                opt.UseSqlite("Filename=./wwwroot/data/CommonDatabase.db"));
+
+            #endregion
+
+
 
             services.AddCors(opt =>
             {

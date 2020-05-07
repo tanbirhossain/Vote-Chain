@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -32,7 +33,12 @@ namespace Voting.Model.Context
             var optionsBuilder = new DbContextOptionsBuilder<BlockchainCommonContext>();
             var connectionString = config.GetConnectionString("BlockchainCommonContext");
 
-            optionsBuilder.UseSqlServer(connectionString);
+            //optionsBuilder.UseSqlServer(connectionString);
+
+            optionsBuilder.UseSqlite("Filename=./wwwroot/data/CommonDatabase.db", options =>
+            {
+                options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+            });
 
             var context = new BlockchainCommonContext(optionsBuilder.Options);
 

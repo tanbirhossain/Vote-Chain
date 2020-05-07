@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -60,7 +61,12 @@ namespace Voting.Model.Context
 
             string connection = string.Format(config.GetConnectionString("BlockchainContext"), p2p_port);
 
-            optionsBuilder.UseSqlServer(connection);
+            //optionsBuilder.UseSqlServer(connection);
+
+            optionsBuilder.UseSqlite("Filename=./wwwroot/data/BlockchainDatabase.db", options =>
+            {
+                options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+            });
 
             var context = new BlockchainContext(optionsBuilder.Options);
 
