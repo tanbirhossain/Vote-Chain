@@ -43,7 +43,7 @@ namespace Chain.Admin.Areas.Auth.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Vote(Vote vote)
+        public async Task<IActionResult> UserVote(Vote vote)
         {
             await _votingService.UserVote(vote, PrivateKey);
             return Ok();
