@@ -27,7 +27,7 @@ namespace Chain.Admin.API.Controller
             await _votingService.Vote(votes, PrivateKey);
             return Ok();
         }
-
+   
         [HttpGet]
         public IActionResult TestKeys()
         {

@@ -43,6 +43,13 @@ namespace Chain.Admin.API.Controller
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetPublicKeyUser(string privateKey)
+        {
+            var result = await _profileService.GetPublicKeyUser(privateKey);
+            return Ok(result);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetUsers([FromQuery] UserSearch filter)
         {
             var result = await _profileService.GetUsersAsync(filter);

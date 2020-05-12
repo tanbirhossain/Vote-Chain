@@ -48,13 +48,35 @@ namespace Voting.Infrastructure.Services
             {
                 Transaction transaction =
                     await _walletService.CreateTransaction(wallet, vote.ElectionAddress, vote.Candidate);
-                
+
                 _p2PNetwork.BroadcastTransaction(transaction);
             }
         }
-        
-        
-        
-        
+
+        public async Task UserVote(Vote vote, string privateKey)
+        {
+            Wallet wallet = new Wallet(privateKey);
+
+
+            var election =
+                await _commonContext.Elections.SingleOrDefaultAsync(e => e.Address == vote.ElectionAddress);
+
+            if (election == null)
+                throw new NotFoundException("election");
+
+            if (election.Status == ElectionStatus.Closed)
+                throw new ValidationException($"election {election.Address} It is finished");
+
+
+
+            Transaction transaction =
+                await _walletService.CreateTransaction(wallet, vote.ElectionAddress, vote.Candidate);
+
+            _p2PNetwork.BroadcastTransaction(transaction);
+
+        }
+
+
+
     }
 }

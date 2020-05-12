@@ -9,4 +9,10 @@ namespace Voting.Infrastructure.DTO.Profile
         public string PrivateKey { get; set; }
         public string PublicKey { get; set; }
     }
+
+    public class WalletUser
+    {
+        public string Name { get; set; }
+        public string PublicKey { get; set; }
+    }
 }

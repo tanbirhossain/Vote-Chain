@@ -67,6 +67,21 @@ namespace Voting.Infrastructure.Services
             return result;
         }
 
+        public async Task<WalletUser> GetPublicKeyUser(string privateKey)
+        {
+            Wallet wallet = new Wallet(privateKey);
+
+            WalletUser result = new WalletUser
+            {
+                PublicKey = wallet.PublicKey
+            };
+            var user = await _commonContext.Users.Where(u => u.PublicKey == result.PublicKey).FirstOrDefaultAsync();
+            if (user==null)
+                throw new ValidationException("The ID you entered is not valid");
+
+            result.Name = user.Name;
+            return result;
+        }
         public async Task<PagedResult<User>> GetUsersAsync(UserSearch filter)
         {
             PagedResult<User> result = new PagedResult<User>();
