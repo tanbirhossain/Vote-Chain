@@ -8,7 +8,7 @@ namespace Voting.Model.Entities
     public class Transaction
     {
         public int Id { get; set; }
-        public TransactionInput Input { get; set; }
+        public TransactionInput Input { get; set; } //its kind of header
         public List<TransactionOutput> Outputs { get; set; }
     }
 }

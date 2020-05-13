@@ -61,6 +61,12 @@ namespace Chain.Admin.API.Controller
             return Ok(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetElectionVotesByAddress(string electionAddress)
+        {
+            List<ElectionVotes> result = await _electionService.GetElectionVotesByElectionAddressAsync(electionAddress);
+            return Ok(result);
+        }
 
         //Here is election
 

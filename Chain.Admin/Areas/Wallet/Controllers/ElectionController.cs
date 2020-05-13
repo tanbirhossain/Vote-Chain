@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Chain.Admin.API.Controller.Util;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Voting.Infrastructure.API.Vote;
@@ -11,15 +10,15 @@ using Voting.Infrastructure.Model.Common;
 using Voting.Infrastructure.Model.Election;
 using Voting.Infrastructure.Services;
 
-namespace Chain.Admin.Areas.Auth.Controllers
+namespace Chain.Admin.Areas.Wallet.Controllers
 {
-    [Route("api/auth/[controller]/[action]")]
+    [Route("api/wallet/[controller]/[action]")]
     [ApiController]
-    public class ElectionController : BaseController
+    public class ElectionController : WalletAuthBaseController
     {
         private readonly ElectionService _electionService;
         private readonly VotingService _votingService;
-        public ElectionController( VotingService votingService, ElectionService electionService, IHttpContextAccessor contextAccessor)
+        public ElectionController(VotingService votingService, ElectionService electionService, IHttpContextAccessor contextAccessor)
           : base(contextAccessor)
         {
             _electionService = electionService;
@@ -33,7 +32,7 @@ namespace Chain.Admin.Areas.Auth.Controllers
 
             return Ok(elections);
         }
-       
+
         [HttpGet]
         public async Task<IActionResult> GetElectionDetails(int electionId)
         {

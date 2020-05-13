@@ -32,7 +32,8 @@ namespace Voting.Infrastructure.Services.BlockChainServices
 
         public async Task<Block> AddBlock(List<Transaction> data)
         {
-            Block lastBlock = await _dbContext.Blocks.LastAsync();
+            //Block lastBlock = await _dbContext.Blocks.LastAsync();
+            Block lastBlock = await _dbContext.Blocks.OrderByDescending(e=>e.Id).FirstOrDefaultAsync();
 
             Block block = _blockService.MineBlock(lastBlock, data);
 

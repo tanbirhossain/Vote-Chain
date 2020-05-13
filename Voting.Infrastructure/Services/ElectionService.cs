@@ -397,6 +397,44 @@ namespace Voting.Infrastructure.Services
             return result;
         }
 
+        public async Task<List<ElectionVotes>> GetElectionVotesByElectionAddressAsync(string electionAddress)
+        {
+            List<ElectionVotes> result = new List<ElectionVotes>();
+
+            var groupedElections = _dbContext.Blocks
+                .ToList()
+                .SelectMany(b => JsonConvert.DeserializeObject<List<Transaction>>(b.Data))
+                .SelectMany(t => t.Outputs)
+                .GroupBy(o => o.ElectionAddress)
+                .Where(e=>e.Key==electionAddress)
+                .ToList();
+
+            foreach (var electionGroup in groupedElections)
+            {
+                var election =
+                    await _commonDbContext.Elections.SingleOrDefaultAsync(e => e.Address == electionGroup.Key);
+
+                var candidates = await _commonDbContext.Users
+                    .Where(u => electionGroup.Select(g => g.CandidateAddress).Contains(u.PublicKey)).ToListAsync();
+
+                result.Add(new ElectionVotes
+                {
+                    Election = election.Name,
+                    ElectionStatus = election.Status,
+                    Candidates = electionGroup.GroupBy(e => e.CandidateAddress).Select(c => new CandidateVote
+                    {
+                        Candidate = candidates.Any(cc => cc.PublicKey == c.Key && !string.IsNullOrEmpty(cc.Name))
+                            ? candidates.Single(cc => cc.PublicKey == c.Key).Name
+                            : c.Key,
+                        TotalVotes = c.Count()
+                    }).ToList()
+                });
+            }
+
+            return result;
+        }
+
+
         public async Task CloseElectionAsync(int electionId)
         {
             Election election = await _commonDbContext.Elections.SingleOrDefaultAsync(e => e.Id == electionId);
