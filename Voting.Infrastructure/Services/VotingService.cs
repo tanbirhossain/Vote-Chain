@@ -65,7 +65,7 @@ namespace Voting.Infrastructure.Services
                 throw new NotFoundException("election");
 
             if (election.Status == ElectionStatus.Closed)
-                throw new ValidationException($"election {election.Address} It is finished");
+                throw new ValidationException($"election {election.Name} It is finished");
 
 
 

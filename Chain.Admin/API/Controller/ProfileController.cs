@@ -35,6 +35,13 @@ namespace Chain.Admin.API.Controller
             return Ok(wallet);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> GetNewWalletWithQR(CreateWalletModel model)
+        {
+            var wallet = await _profileService.GetNewWalletWithQRcode(model);
+            return Ok(wallet);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetPublicKey(string privateKey)
         {

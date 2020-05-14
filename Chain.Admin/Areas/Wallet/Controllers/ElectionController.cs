@@ -34,9 +34,9 @@ namespace Chain.Admin.Areas.Wallet.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetElectionDetails(int electionId)
+        public async Task<IActionResult> GetElectionDetailsByAddress(string electionAddress)
         {
-            ElectionDTO election = await _electionService.GetElectionDetailsByIdAsync(electionId);
+            ElectionDTO election = await _electionService.GetElectionDetailsByAddressAsync(electionAddress);
 
             return Ok(election);
         }

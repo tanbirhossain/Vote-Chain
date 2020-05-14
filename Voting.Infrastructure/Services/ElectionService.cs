@@ -155,7 +155,7 @@ namespace Voting.Infrastructure.Services
             //        elections.SelectMany(e => e.Candidates).Select(c => c.CandidateAddress).Contains(u.PublicKey))
             //    .ToListAsync();
 
-    
+
 
             result.TotalCount = elections.Count();
             result.Items = elections;
@@ -236,6 +236,34 @@ namespace Voting.Infrastructure.Services
                 .Include(e => e.Candidates)
                 .ProjectTo<ElectionDTO>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync(e => e.Id == electionId);
+
+
+            //find user list
+            var _candidates = election.Candidates;
+            var candidates = await _commonDbContext.Users
+               .Where(u => _candidates.Select(c => c.CandidateAddress).Contains(u.PublicKey))
+               .ToListAsync();
+            // push username
+            foreach (var candidate in election.Candidates)
+            {
+                candidate.CandidateName =
+                    candidates.Any(c => c.PublicKey == candidate.CandidateAddress)
+                        ? candidates.Single(c => c.PublicKey == candidate.CandidateAddress).Name
+                        : "";
+            }
+
+            //if (election == null)
+            //    throw new NotFoundException("election");
+
+            return election;
+        }
+
+        public async Task<ElectionDTO> GetElectionDetailsByAddressAsync(string electionAddress)
+        {
+            ElectionDTO election = await _commonDbContext.Elections
+                .Include(e => e.Candidates)
+                .ProjectTo<ElectionDTO>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync(e => e.Address == electionAddress);
 
 
             //find user list
@@ -406,7 +434,7 @@ namespace Voting.Infrastructure.Services
                 .SelectMany(b => JsonConvert.DeserializeObject<List<Transaction>>(b.Data))
                 .SelectMany(t => t.Outputs)
                 .GroupBy(o => o.ElectionAddress)
-                .Where(e=>e.Key==electionAddress)
+                .Where(e => e.Key == electionAddress)
                 .ToList();
 
             foreach (var electionGroup in groupedElections)

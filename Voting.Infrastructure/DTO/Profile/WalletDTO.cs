@@ -15,4 +15,12 @@ namespace Voting.Infrastructure.DTO.Profile
         public string Name { get; set; }
         public string PublicKey { get; set; }
     }
+
+    public class WalletQRDTO
+    {
+        public string QRCodeBase64 { get; set; }
+        public string PrivateKey { get; set; }
+        public string PublicKey { get; set; }
+    }
+
 }
