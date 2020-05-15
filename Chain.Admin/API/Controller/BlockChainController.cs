@@ -14,7 +14,6 @@ namespace Chain.Admin.API.Controller
     public class BlockChainController : ControllerBase
     {
         private readonly MinerService _minerService;
-
         public BlockChainController(MinerService minerService)
         {
             _minerService = minerService;
